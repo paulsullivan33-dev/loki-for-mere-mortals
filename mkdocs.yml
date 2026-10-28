@@ -1,0 +1,28 @@
+site_name: Loki for Mere Mortals
+site_description: Prometheus-style storage for log lines. Run one Loki server, give every line a few labels, push logs in over HTTP, and ask questions in LogQL, from your first stored line to retention, with the limits stated plainly.
+site_url: https://paulsullivan33-dev.github.io/loki-for-mere-mortals/
+copyright: 'Part of <a href="https://paulsullivan33-dev.github.io/mere-mortals/">For Mere Mortals</a> · Text <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code MIT'
+
+# Guides live at the repo root (nice for GitHub browsing).
+# The deploy workflow copies them into docs/ before building.
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - What Loki Is: what-loki-is.md
+  - The Moving Parts: the-moving-parts.md
+  - Installing Loki: installing-loki.md
+  - Your First Logs: your-first-logs.md
+  - Labels and Streams: labels-and-streams.md
+  - LogQL — Selecting and Filtering: logql-selecting-and-filtering.md
+  - LogQL — Parsing and Metrics: logql-parsing-and-metrics.md
+  - Getting Logs In: getting-logs-in.md
+  - Seeing Logs in Grafana: seeing-logs-in-grafana.md
+  - Storage and Retention: storage-and-retention.md
+  - Recipes: recipes.md
+  - The Neighbours: the-neighbours.md
+  - Limits: limits.md
+  - Troubleshooting: troubleshooting.md
+  - Glossary: glossary.md
+  - Writing Criteria: criteria.md

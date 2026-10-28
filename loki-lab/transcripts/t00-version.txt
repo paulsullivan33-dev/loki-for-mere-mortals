@@ -1,0 +1,15 @@
+$ ./loki-linux-amd64 --version
+loki, version 3.7.9 (branch: release-3.7.x, revision: d3b4a2f7)
+  build user:       root@c03d5eaf3258
+  build date:       2026-10-20T21:43:16Z
+  go version:       go1.26.10
+  platform:         linux/amd64
+  tags:             netgo
+
+$ ./logcli-linux-amd64 --version
+logcli, version 3.7.9 (branch: release-3.7.x, revision: d3b4a2f7)
+  build user:       root@c03d5eaf3258
+  build date:       2026-10-20T21:43:16Z
+  go version:       go1.26.10
+  platform:         linux/amd64
+  tags:             netgo

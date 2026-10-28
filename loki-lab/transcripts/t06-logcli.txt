@@ -1,0 +1,37 @@
+$ export LOKI_ADDR=http://127.0.0.1:3100
+
+$ logcli labels
+job
+service_name
+
+$ logcli query '{service_name="api"} |= "level=error"' --since=1h --limit=5
+2026-10-28T04:40:38Z {} level=error method=GET path=/items status=503 duration_ms=502 msg="upstream unavailable"
+2026-10-28T04:33:38Z {} level=error method=POST path=/checkout status=500 duration_ms=240 msg="payment gateway timeout"
+
+(logcli prints newest first by default.)
+
+$ logcli instant-query 'count_over_time({job="lab"} |= "level=error" [1h])'
+[
+  {
+    "metric": {
+      "detected_level": "error",
+      "job": "lab",
+      "service_name": "api"
+    },
+    "value": [
+      1793162766.975,
+      "2"
+    ]
+  },
+  {
+    "metric": {
+      "detected_level": "error",
+      "job": "lab",
+      "service_name": "worker"
+    },
+    "value": [
+      1793162766.975,
+      "1"
+    ]
+  }
+]

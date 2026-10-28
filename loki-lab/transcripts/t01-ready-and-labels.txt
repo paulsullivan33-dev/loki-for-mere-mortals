@@ -1,0 +1,8 @@
+$ curl -s http://127.0.0.1:3100/loki/api/v1/labels
+{
+    "status": "success",
+    "data": [
+        "job",
+        "service_name"
+    ]
+}

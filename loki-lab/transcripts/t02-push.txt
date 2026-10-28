@@ -1,0 +1,71 @@
+$ cat push.json
+{
+  "streams": [
+    {
+      "stream": {
+        "job": "lab",
+        "service_name": "api"
+      },
+      "values": [
+        [
+          "1793161238883337011",
+          "level=info msg=\"server started\" port=8080 version=1.4.2"
+        ],
+        [
+          "1793161418883337011",
+          "level=info method=GET path=/items status=200 duration_ms=12"
+        ],
+        [
+          "1793161598883337011",
+          "level=info method=GET path=/items/42 status=200 duration_ms=9"
+        ],
+        [
+          "1793161778883337011",
+          "level=warn method=GET path=/old-page status=404 duration_ms=3"
+        ],
+        [
+          "1793162018883337011",
+          "level=error method=POST path=/checkout status=500 duration_ms=240 msg=\"payment gateway timeout\""
+        ],
+        [
+          "1793162198883337011",
+          "level=info method=POST path=/checkout status=200 duration_ms=131"
+        ],
+        [
+          "1793162438883337011",
+          "level=error method=GET path=/items status=503 duration_ms=502 msg=\"upstream unavailable\""
+        ]
+      ]
+    },
+    {
+      "stream": {
+        "job": "lab",
+        "service_name": "worker"
+      },
+      "values": [
+        [
+          "1793161538883337011",
+          "level=info msg=\"job started\" job_name=nightly-export"
+        ],
+        [
+          "1793161838883337011",
+          "level=info msg=\"job finished\" job_name=nightly-export processed=512"
+        ],
+        [
+          "1793162318883337011",
+          "level=error msg=\"job failed\" job_name=thumbnailer error=\"cannot read image\""
+        ]
+      ]
+    }
+  ]
+}
+
+$ curl -s -X POST http://127.0.0.1:3100/loki/api/v1/push \
+    -H 'Content-Type: application/json' \
+    --data-binary @push.json -w '%{http_code}\n' -o response.txt
+204
+
+$ wc -c response.txt
+0 response.txt
+
+(HTTP 204 with an empty body is Loki's "stored" answer.)

@@ -1,0 +1,19 @@
+The lab's ten lines were flushed from memory to disk on request:
+
+$ curl -s -X POST http://127.0.0.1:3100/flush -w '%{http_code}\n' -o /dev/null
+204
+
+$ find data -type f | sort
+data/chunks/fake/15555cd5be71d803/MWExODBiZDE5NjM6MWExODBjZjY4ZTQ6YmIwMTgxZTU=
+data/chunks/fake/c608c70f6096f841/MWExODBjMWFkNDM6MWExODBjZDk0MjQ6NWU0OTI0N2U=
+data/tsdb-shipper-active/uploader/name
+data/tsdb-shipper-active/wal/filesystem_2020-10-24/1793162756/00000000
+data/wal/00000000
+
+$ du -sh data
+20K	data
+
+"fake" is the tenant name Loki uses when auth_enabled is false:
+every chunk and index entry belongs to it. There is one chunk
+file per stream for this small lab. The tsdb-shipper folders
+hold the index on its way to the same filesystem store.

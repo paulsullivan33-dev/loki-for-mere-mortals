@@ -1,0 +1,33 @@
+Three behaviours from the same lab session.
+
+1. detected_level works as a filter across both services:
+
+$ curl -s -G http://127.0.0.1:3100/loki/api/v1/query_range \
+    --data-urlencode 'query={job="lab"} | detected_level="error"' \
+    (same time range as t03)
+
+api     level=error method=GET path=/items status=503 ...
+api     level=error method=POST path=/checkout status=500 ...
+worker  level=error msg="job failed" job_name=thumbnailer ...
+lines returned: 3
+
+2. Pushing the identical payload a second time stores nothing new:
+
+$ curl -s -X POST http://127.0.0.1:3100/loki/api/v1/push \
+    -H 'Content-Type: application/json' --data-binary @push.json
+204
+
+A count of all lines under {job="lab"} afterwards still
+totals 10: Loki deduplicates entries that repeat a timestamp
+and line within a stream.
+
+3. A line older than the configured limit is refused, by name:
+
+$ curl -s -X POST http://127.0.0.1:3100/loki/api/v1/push \
+    -H 'Content-Type: application/json' --data-binary @old.json
+entry for stream '{job="lab", service_name="api"}' has timestamp too old: 2026-10-18T04:46:01Z, oldest acceptable timestamp is: 2026-10-21T04:46:01Z
+
+HTTP status: 400
+
+(The lab config sets reject_old_samples_max_age to 168h —
+seven days — so a ten-day-old line is outside it.)
